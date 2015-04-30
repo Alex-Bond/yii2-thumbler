@@ -32,7 +32,7 @@ return [
     //....
     'components' => [
         'thumbler'=> [
-            'class' => 'alexBond\thumbler',
+            'class' => 'alexBond\thumbler\Thumbler',
             'sourcePath' => '/path/to/source/files',
             'thumbsPath' => '/path/to/resize/cache',
         ],
