@@ -1,6 +1,7 @@
 <?php
 namespace alexBond\thumbler;
 
+use Symfony\Component\Filesystem\Filesystem;
 use yii\base\Component;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
@@ -73,6 +74,30 @@ class Thumbler extends Component
             }
         }
         return $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . '/' . $image;
+    }
+
+    public function clearImageCache( $image )
+    {
+        $this->checkConfig();
+
+        $fs = new Filesystem();
+        foreach (scandir( $this->thumbsPath ) as $item) {
+            if ($item == "." || $item == "..") {
+                continue;
+            }
+            $fs->remove( $this->thumbsPath . $item . '/' . $image );
+        }
+    }
+
+    public function clearAllCache()
+    {
+        $fs = new Filesystem();
+        foreach (scandir( $this->thumbsPath ) as $item) {
+            if ($item == "." || $item == "..") {
+                continue;
+            }
+            $fs->remove( $this->thumbsPath . $item );
+        }
     }
 
     /**
