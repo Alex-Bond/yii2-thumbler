@@ -11,13 +11,13 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist Alex-Bond/yii2-thumbler
+php composer.phar require --prefer-dist alex-bond/yii2-thumbler
 ```
 
 or add
 
 ```json
-"Alex-Bond/yii2-thumbler": "*"
+"alex-bond/yii2-thumbler": "*"
 ```
 
 to the require section of your composer.json.
