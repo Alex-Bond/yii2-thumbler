@@ -56,18 +56,18 @@ class Thumbler extends Component
         $callExceptionOnError = true
     ) {
         $this->checkConfig();
-        if ( ! file_exists( $this->thumbsPath . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image )) {
-            $this->zebraInstance->source_path = $this->sourcePath . $image;
-            $this->zebraInstance->target_path = $this->thumbsPath . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
+        if (!file_exists(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image)) {
+            $this->zebraInstance->source_path = \Yii::getAlias($this->sourcePath) . DIRECTORY_SEPARATOR . $image;
+            $this->zebraInstance->target_path = \Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
 
-            $targetInfo = pathinfo( $this->thumbsPath . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image );
-            if ( ! is_dir( $targetInfo['dirname'] )) {
-                mkdir( $targetInfo['dirname'], 0777, true );
+            $targetInfo = pathinfo(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image);
+            if (!is_dir($targetInfo['dirname'])) {
+                mkdir($targetInfo['dirname'], 0777, true);
             }
 
-            if ( ! $this->zebraInstance->resize( $width, $height, $method, "#" . $backgroundColor )) {
+            if (!$this->zebraInstance->resize($width, $height, $method, "#" . $backgroundColor)) {
                 if ($callExceptionOnError) {
-                    $this->callException( $this->zebraInstance->error );
+                    $this->callException($this->zebraInstance->error);
                 } else {
                     return false;
                 }
@@ -76,27 +76,27 @@ class Thumbler extends Component
         return $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . '/' . $image;
     }
 
-    public function clearImageCache( $image )
+    public function clearImageCache($image)
     {
         $this->checkConfig();
 
         $fs = new Filesystem();
-        foreach (scandir( $this->thumbsPath ) as $item) {
+        foreach (scandir(\Yii::getAlias($this->thumbsPath)) as $item) {
             if ($item == "." || $item == "..") {
                 continue;
             }
-            $fs->remove( $this->thumbsPath . $item . '/' . $image );
+            $fs->remove(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $item . '/' . $image);
         }
     }
 
     public function clearAllCache()
     {
         $fs = new Filesystem();
-        foreach (scandir( $this->thumbsPath ) as $item) {
+        foreach (scandir(\Yii::getAlias($this->thumbsPath)) as $item) {
             if ($item == "." || $item == "..") {
                 continue;
             }
-            $fs->remove( $this->thumbsPath . $item );
+            $fs->remove(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $item);
         }
     }
 
@@ -128,29 +128,29 @@ class Thumbler extends Component
         }
     }
 
-    private function callException( $error )
+    private function callException($error)
     {
         switch ($error) {
             case 1:
-                throw new Exception( 'Source file could not be found!' );
+                throw new Exception('Source file could not be found!');
                 break;
             case 2:
-                throw new Exception( 'Source file is not readable!' );
+                throw new Exception('Source file is not readable!');
                 break;
             case 3:
-                throw new Exception( 'Could not write target file!' );
+                throw new Exception('Could not write target file!');
                 break;
             case 4:
-                throw new Exception( 'Unsupported source file format!' );
+                throw new Exception('Unsupported source file format!');
                 break;
             case 5:
-                throw new Exception( 'Unsupported target file format!' );
+                throw new Exception('Unsupported target file format!');
                 break;
             case 6:
-                throw new Exception( 'GD library version does not support target file format!' );
+                throw new Exception('GD library version does not support target file format!');
                 break;
             case 7:
-                throw new Exception( 'GD library is not installed!' );
+                throw new Exception('GD library is not installed!');
                 break;
         }
     }
@@ -158,16 +158,16 @@ class Thumbler extends Component
     public function checkConfig()
     {
         if (empty( $this->sourcePath )) {
-            throw new InvalidConfigException( "Source path are empty" );
+            throw new InvalidConfigException("Source path are empty");
         }
-        if ( ! is_dir( $this->sourcePath )) {
-            throw new Exception( "Source path not found" );
+        if (!is_dir($this->sourcePath)) {
+            throw new Exception("Source path not found");
         }
         if (empty( $this->thumbsPath )) {
-            throw new InvalidConfigException( "Thumbs path are empty" );
+            throw new InvalidConfigException("Thumbs path are empty");
         }
-        if ( ! is_dir( $this->thumbsPath )) {
-            throw new Exception( "Thumbs path not found" );
+        if (!is_dir($this->thumbsPath)) {
+            throw new Exception("Thumbs path not found");
         }
     }
 }
