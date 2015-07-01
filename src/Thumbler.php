@@ -73,7 +73,7 @@ class Thumbler extends Component
                 }
             }
         }
-        return $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . '/' . $image;
+        return $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
     }
 
     public function clearImageCache($image)
@@ -85,7 +85,7 @@ class Thumbler extends Component
             if ($item == "." || $item == "..") {
                 continue;
             }
-            $fs->remove(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $item . '/' . $image);
+            $fs->remove(\Yii::getAlias($this->thumbsPath) . DIRECTORY_SEPARATOR . $item . DIRECTORY_SEPARATOR . $image);
         }
     }
 
