@@ -6,6 +6,13 @@ use yii\base\Component;
 use yii\base\Exception;
 use yii\base\InvalidConfigException;
 
+/**
+ * Class Thumbler
+ *
+ * This extension allows to resize images and automatically cache them.
+ *
+ * @property \Zebra_Image $zebraInstance
+ */
 class Thumbler extends Component
 {
     const METHOD_BOXED = 0;
@@ -23,7 +30,7 @@ class Thumbler extends Component
     /**
      * @var \Zebra_Image
      */
-    private $zebraInstance;
+    private $_zebraInstance = null;
     /**
      * @var string Path to sources of images
      */
@@ -33,9 +40,15 @@ class Thumbler extends Component
      */
     public $thumbsPath;
 
-    public function init()
+    /**
+     * @return \Zebra_Image
+     */
+    public function getZebraInstance()
     {
-        $this->zebraInstance = new \Zebra_Image();
+        if ($this->_zebraInstance === null) {
+            $this->_zebraInstance = new \Zebra_Image();
+        }
+        return $this->_zebraInstance;
     }
 
     /**
