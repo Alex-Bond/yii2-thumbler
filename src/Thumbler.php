@@ -173,13 +173,13 @@ class Thumbler extends Component
         if (empty( $this->sourcePath )) {
             throw new InvalidConfigException("Source path are empty");
         }
-        if (!is_dir($this->sourcePath)) {
+        if (!is_dir(\Yii::getAlias($this->sourcePath))) {
             throw new Exception("Source path not found");
         }
         if (empty( $this->thumbsPath )) {
             throw new InvalidConfigException("Thumbs path are empty");
         }
-        if (!is_dir($this->thumbsPath)) {
+        if (!is_dir(\Yii::getAlias($this->thumbsPath))) {
             throw new Exception("Thumbs path not found");
         }
     }
