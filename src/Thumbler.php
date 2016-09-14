@@ -39,6 +39,10 @@ class Thumbler extends Component
      * @var string Path to thumbs of images
      */
     public $thumbsPath;
+    /**
+     * @var string Url to thumbs of images
+     */
+    public $thumbsUrl;
 
     /**
      * @return \Zebra_Image
@@ -86,7 +90,7 @@ class Thumbler extends Component
                 }
             }
         }
-        return $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
+        return $this->thumbsUrl . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
     }
 
     public function clearImageCache($image)
@@ -170,17 +174,20 @@ class Thumbler extends Component
 
     public function checkConfig()
     {
-        if (empty( $this->sourcePath )) {
+        if (empty($this->sourcePath)) {
             throw new InvalidConfigException("Source path are empty");
         }
         if (!is_dir(\Yii::getAlias($this->sourcePath))) {
             throw new Exception("Source path not found");
         }
-        if (empty( $this->thumbsPath )) {
+        if (empty($this->thumbsPath)) {
             throw new InvalidConfigException("Thumbs path are empty");
         }
         if (!is_dir(\Yii::getAlias($this->thumbsPath))) {
             throw new Exception("Thumbs path not found");
+        }
+        if (!is_dir(\Yii::getAlias($this->thumbsUrl))) {
+            throw new Exception("Thumbs url not found");
         }
     }
 }
