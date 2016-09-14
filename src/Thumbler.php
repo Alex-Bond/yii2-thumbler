@@ -90,7 +90,7 @@ class Thumbler extends Component
                 }
             }
         }
-        return $this->thumbsUrl . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
+        return (empty($this->thumbsUrl) ? '' : $this->thumbsUrl) . $method . '_' . $width . 'x' . $height . '_' . $backgroundColor . DIRECTORY_SEPARATOR . $image;
     }
 
     public function clearImageCache($image)
@@ -185,9 +185,6 @@ class Thumbler extends Component
         }
         if (!is_dir(\Yii::getAlias($this->thumbsPath))) {
             throw new Exception("Thumbs path not found");
-        }
-        if (!is_dir(\Yii::getAlias($this->thumbsUrl))) {
-            throw new Exception("Thumbs url not found");
         }
     }
 }
